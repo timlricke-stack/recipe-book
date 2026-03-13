@@ -1,0 +1,65 @@
+@model IReadOnlyList<FamilyRecipeBook.Web.Models.RecipeListItem>
+
+@{
+    ViewData["Title"] = "Family Recipes";
+    var errorMessage = ViewData["ErrorMessage"] as string;
+}
+
+<section class="hero-splash mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+        <div>
+            <h1 class="display-6 mb-1">Family Recipe Book</h1>
+            <p class="mb-0">Collect, preserve, and share the meals your family loves.</p>
+        </div>
+        <a class="btn btn-lg btn-accent" asp-controller="Recipes" asp-action="Create">Add Recipe</a>
+    </div>
+</section>
+
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-warning" role="alert">@errorMessage</div>
+}
+
+@if (Model.Count == 0)
+{
+    <div class="card p-4 shadow-sm border-0">
+        <h2 class="h5">No recipes yet</h2>
+        <p class="mb-0">Start with your first family recipe and build your shared cookbook.</p>
+    </div>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var recipe in Model)
+        {
+            <div class="col-12 col-md-6 col-xl-4">
+                <article class="recipe-card h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
+                        <h2 class="h5 mb-0">@recipe.Title</h2>
+                        @if (recipe.IsFavorite)
+                        {
+                            <span class="badge favorite-badge">Favorite</span>
+                        }
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(recipe.Description))
+                    {
+                        <p class="text-muted mb-3">@recipe.Description</p>
+                    }
+
+                    <div class="meta-row mb-3">
+                        <span>@recipe.TotalMinutes min total</span>
+                        <span>Prep @recipe.PrepMinutes</span>
+                        <span>Cook @recipe.CookMinutes</span>
+                        @if (recipe.Servings.HasValue)
+                        {
+                            <span>Serves @recipe.Servings</span>
+                        }
+                    </div>
+
+                    <a class="btn btn-outline-primary" asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.RecipeId">View Recipe</a>
+                </article>
+            </div>
+        }
+    </div>
+}

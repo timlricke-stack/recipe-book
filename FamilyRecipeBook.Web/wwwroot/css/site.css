@@ -1,0 +1,91 @@
+:root {
+  --ink: #2f2722;
+  --cream: #f7f2e9;
+  --sage: #6f8a69;
+  --sage-dark: #506a4c;
+  --rust: #b75b3a;
+  --paper: #fffdf9;
+}
+
+html {
+  font-size: 16px;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", "Trebuchet MS", "Verdana", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top right, #f8dfbf 0%, transparent 35%),
+    radial-gradient(circle at bottom left, #dbe9d7 0%, transparent 30%),
+    linear-gradient(180deg, #f8f4eb 0%, #f2ece0 100%);
+  margin-bottom: 60px;
+}
+
+.navbar {
+  background: rgba(255, 253, 249, 0.94) !important;
+  backdrop-filter: blur(4px);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.hero-splash {
+  background: linear-gradient(135deg, #456459 0%, #6f8a69 55%, #88a882 100%);
+  color: #fefcf6;
+  border-radius: 18px;
+  padding: 1.25rem 1.4rem;
+  box-shadow: 0 14px 30px rgba(40, 52, 45, 0.2);
+}
+
+.recipe-card {
+  background: var(--paper);
+  border: 1px solid rgba(111, 138, 105, 0.2);
+  border-radius: 14px;
+  padding: 1rem;
+  box-shadow: 0 10px 18px rgba(42, 34, 29, 0.06);
+}
+
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.meta-row span {
+  background: #ece6db;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+}
+
+.favorite-badge {
+  background: var(--rust);
+  color: #fff;
+}
+
+.btn-accent {
+  background: var(--rust);
+  border-color: var(--rust);
+  color: #fff;
+}
+
+.btn-accent:hover {
+  background: #99482d;
+  border-color: #99482d;
+  color: #fff;
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.12rem #fff, 0 0 0 0.25rem rgba(111, 138, 105, 0.5);
+}
+
+footer.footer {
+  background: rgba(255, 253, 249, 0.9);
+}

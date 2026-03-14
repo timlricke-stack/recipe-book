@@ -1,0 +1,25 @@
+{
+  "name": "newrepo",
+  "version": "1.0.0",
+  "description": "family recipe book",
+  "keywords": [
+    "recipe",
+    "database",
+    "family"
+  ],
+  "homepage": "https://github.com/timlricke-stack/NewRepo#readme",
+  "bugs": {
+    "url": "https://github.com/timlricke-stack/NewRepo/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timlricke-stack/NewRepo.git"
+  },
+  "license": "ISC",
+  "author": "tim ricke",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "dotnet run test"
+  }
+}

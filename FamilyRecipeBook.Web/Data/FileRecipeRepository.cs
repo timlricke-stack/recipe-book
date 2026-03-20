@@ -152,7 +152,7 @@ public sealed class FileRecipeRepository : IRecipeRepository
         }
     }
 
-    public async Task UpdateAsync(int recipeId, CreateRecipeInputModel model, CancellationToken cancellationToken = default)
+    public async Task<bool> UpdateAsync(int recipeId, CreateRecipeInputModel model, CancellationToken cancellationToken = default)
     {
         await _lock.WaitAsync(cancellationToken);
         try
@@ -161,7 +161,7 @@ public sealed class FileRecipeRepository : IRecipeRepository
             var recipe = store.Recipes.FirstOrDefault(r => r.RecipeId == recipeId);
             if (recipe is null)
             {
-                return;
+                return false;
             }
 
             recipe.Title = model.Title;
@@ -195,6 +195,7 @@ public sealed class FileRecipeRepository : IRecipeRepository
                 .ToList();
 
             await WriteStoreAsync(store, cancellationToken);
+            return true;
         }
         finally
         {

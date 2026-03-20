@@ -110,7 +110,12 @@ public sealed class RecipesController : Controller
             return View(model);
         }
 
-        await _recipeRepository.UpdateAsync(id, model, cancellationToken);
+        var found = await _recipeRepository.UpdateAsync(id, model, cancellationToken);
+        if (!found)
+        {
+            return NotFound();
+        }
+
         return RedirectToAction(nameof(Details), new { id });
     }
 

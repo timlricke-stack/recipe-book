@@ -96,7 +96,6 @@ public sealed class RecipesController : Controller
                 .ToList()
         };
 
-        ViewData["RecipeId"] = id;
         return View(model);
     }
 
@@ -106,7 +105,6 @@ public sealed class RecipesController : Controller
     {
         if (!ModelState.IsValid)
         {
-            ViewData["RecipeId"] = id;
             return View(model);
         }
 

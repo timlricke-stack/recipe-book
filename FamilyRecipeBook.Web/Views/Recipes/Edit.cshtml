@@ -1,7 +1,7 @@
 @model FamilyRecipeBook.Web.Models.CreateRecipeInputModel
 
 @{
-    var recipeId = (int)ViewData["RecipeId"]!;
+    var recipeId = Convert.ToInt32(ViewContext.RouteData.Values["id"]);
     ViewData["Title"] = "Edit Recipe";
 }
 

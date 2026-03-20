@@ -61,7 +61,7 @@ else
                         <a class="btn btn-outline-primary btn-sm" asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.RecipeId">View Recipe</a>
                         <a class="btn btn-outline-secondary btn-sm" asp-controller="Recipes" asp-action="Edit" asp-route-id="@recipe.RecipeId">Edit</a>
                         <form asp-action="Delete" asp-route-id="@recipe.RecipeId" method="post" class="d-inline"
-                              onsubmit="return confirm('Delete \u201c@recipe.Title\u201d? This cannot be undone.');">
+                              onsubmit="return confirm('Delete this recipe? This cannot be undone.');">
                             <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
                         </form>
                     </div>

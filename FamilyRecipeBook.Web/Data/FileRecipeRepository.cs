@@ -69,6 +69,7 @@ public sealed class FileRecipeRepository : IRecipeRepository
                 Servings = recipe.Servings,
                 Source = recipe.Source,
                 IsFavorite = recipe.IsFavorite,
+                SubmittedBy = recipe.SubmittedBy,
                 Categories = recipe.Categories,
                 Ingredients = recipe.Ingredients
                     .OrderBy(i => i.SequenceNumber)
@@ -105,6 +106,27 @@ public sealed class FileRecipeRepository : IRecipeRepository
             var store = await ReadStoreAsync(cancellationToken);
             var nextId = store.Recipes.Count == 0 ? 1 : store.Recipes.Max(r => r.RecipeId) + 1;
 
+            var ingredients = model.Ingredients
+                .Where(i => !string.IsNullOrWhiteSpace(i.IngredientName))
+                .Select((i, idx) => new StoredIngredient
+                {
+                    SequenceNumber = idx + 1,
+                    IngredientName = i.IngredientName.Trim(),
+                    Quantity = i.Quantity,
+                    Unit = string.IsNullOrWhiteSpace(i.Unit) ? null : i.Unit.Trim(),
+                    PrepNote = string.IsNullOrWhiteSpace(i.PrepNote) ? null : i.PrepNote.Trim()
+                })
+                .ToList();
+
+            var steps = model.Steps
+                .Where(s => !string.IsNullOrWhiteSpace(s.InstructionText))
+                .Select((s, idx) => new StoredStep
+                {
+                    StepNumber = idx + 1,
+                    InstructionText = s.InstructionText.Trim()
+                })
+                .ToList();
+
             store.Recipes.Add(new StoredRecipe
             {
                 RecipeId = nextId,
@@ -115,13 +137,82 @@ public sealed class FileRecipeRepository : IRecipeRepository
                 Servings = model.Servings,
                 Source = model.Source,
                 IsFavorite = model.IsFavorite,
+                SubmittedBy = string.IsNullOrWhiteSpace(model.SubmittedBy) ? null : model.SubmittedBy.Trim(),
                 Categories = [],
-                Ingredients = [],
-                Steps = []
+                Ingredients = ingredients,
+                Steps = steps
             });
 
             await WriteStoreAsync(store, cancellationToken);
             return nextId;
+        }
+        finally
+        {
+            _lock.Release();
+        }
+    }
+
+    public async Task UpdateAsync(int recipeId, CreateRecipeInputModel model, CancellationToken cancellationToken = default)
+    {
+        await _lock.WaitAsync(cancellationToken);
+        try
+        {
+            var store = await ReadStoreAsync(cancellationToken);
+            var recipe = store.Recipes.FirstOrDefault(r => r.RecipeId == recipeId);
+            if (recipe is null)
+            {
+                return;
+            }
+
+            recipe.Title = model.Title;
+            recipe.Description = model.Description;
+            recipe.PrepMinutes = model.PrepMinutes;
+            recipe.CookMinutes = model.CookMinutes;
+            recipe.Servings = model.Servings;
+            recipe.Source = model.Source;
+            recipe.IsFavorite = model.IsFavorite;
+            recipe.SubmittedBy = string.IsNullOrWhiteSpace(model.SubmittedBy) ? null : model.SubmittedBy.Trim();
+
+            recipe.Ingredients = model.Ingredients
+                .Where(i => !string.IsNullOrWhiteSpace(i.IngredientName))
+                .Select((i, idx) => new StoredIngredient
+                {
+                    SequenceNumber = idx + 1,
+                    IngredientName = i.IngredientName.Trim(),
+                    Quantity = i.Quantity,
+                    Unit = string.IsNullOrWhiteSpace(i.Unit) ? null : i.Unit.Trim(),
+                    PrepNote = string.IsNullOrWhiteSpace(i.PrepNote) ? null : i.PrepNote.Trim()
+                })
+                .ToList();
+
+            recipe.Steps = model.Steps
+                .Where(s => !string.IsNullOrWhiteSpace(s.InstructionText))
+                .Select((s, idx) => new StoredStep
+                {
+                    StepNumber = idx + 1,
+                    InstructionText = s.InstructionText.Trim()
+                })
+                .ToList();
+
+            await WriteStoreAsync(store, cancellationToken);
+        }
+        finally
+        {
+            _lock.Release();
+        }
+    }
+
+    public async Task DeleteAsync(int recipeId, CancellationToken cancellationToken = default)
+    {
+        await _lock.WaitAsync(cancellationToken);
+        try
+        {
+            var store = await ReadStoreAsync(cancellationToken);
+            var removed = store.Recipes.RemoveAll(r => r.RecipeId == recipeId);
+            if (removed > 0)
+            {
+                await WriteStoreAsync(store, cancellationToken);
+            }
         }
         finally
         {
@@ -165,6 +256,7 @@ public sealed class FileRecipeRepository : IRecipeRepository
                     Servings = 4,
                     Source = "Family Card Box",
                     IsFavorite = true,
+                    SubmittedBy = "Grandma Rose",
                     Categories = ["Breakfast"],
                     Ingredients =
                     [
@@ -206,6 +298,7 @@ public sealed class FileRecipeRepository : IRecipeRepository
         public int? Servings { get; set; }
         public string? Source { get; set; }
         public bool IsFavorite { get; set; }
+        public string? SubmittedBy { get; set; }
         public List<string> Categories { get; set; } = [];
         public List<StoredIngredient> Ingredients { get; set; } = [];
         public List<StoredStep> Steps { get; set; } = [];

@@ -33,7 +33,7 @@ else
         @foreach (var recipe in Model)
         {
             <div class="col-12 col-md-6 col-xl-4">
-                <article class="recipe-card h-100">
+                <article class="recipe-card h-100 d-flex flex-column">
                     <div class="d-flex justify-content-between align-items-start mb-2 gap-2">
                         <h2 class="h5 mb-0">@recipe.Title</h2>
                         @if (recipe.IsFavorite)
@@ -57,7 +57,14 @@ else
                         }
                     </div>
 
-                    <a class="btn btn-outline-primary" asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.RecipeId">View Recipe</a>
+                    <div class="mt-auto d-flex gap-2 flex-wrap">
+                        <a class="btn btn-outline-primary btn-sm" asp-controller="Recipes" asp-action="Details" asp-route-id="@recipe.RecipeId">View Recipe</a>
+                        <a class="btn btn-outline-secondary btn-sm" asp-controller="Recipes" asp-action="Edit" asp-route-id="@recipe.RecipeId">Edit</a>
+                        <form asp-action="Delete" asp-route-id="@recipe.RecipeId" method="post" class="d-inline"
+                              onsubmit="return confirm('Delete \u201c@recipe.Title\u201d? This cannot be undone.');">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
                 </article>
             </div>
         }

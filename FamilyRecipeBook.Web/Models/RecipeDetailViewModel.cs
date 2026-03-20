@@ -11,6 +11,7 @@ public sealed class RecipeDetailViewModel
     public int? Servings { get; init; }
     public string? Source { get; init; }
     public bool IsFavorite { get; init; }
+    public string? SubmittedBy { get; init; }
     public IReadOnlyList<string> Categories { get; init; } = [];
     public IReadOnlyList<IngredientLine> Ingredients { get; init; } = [];
     public IReadOnlyList<RecipeStepLine> Steps { get; init; } = [];

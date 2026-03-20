@@ -25,9 +25,22 @@
                     <span class="badge favorite-badge">Favorite</span>
                 }
             </div>
+            @if (!string.IsNullOrWhiteSpace(Model.SubmittedBy))
+            {
+                <p class="mb-0 mt-2 small">Submitted by <strong>@Model.SubmittedBy</strong></p>
+            }
+            @if (!string.IsNullOrWhiteSpace(Model.Source))
+            {
+                <p class="mb-0 small">Source: <em>@Model.Source</em></p>
+            }
         </div>
-        <div class="d-flex align-items-start">
+        <div class="d-flex align-items-start gap-2 flex-wrap">
+            <a class="btn btn-outline-light" asp-controller="Recipes" asp-action="Edit" asp-route-id="@Model.RecipeId">Edit</a>
             <a class="btn btn-outline-light" asp-controller="Recipes" asp-action="Index">Back to recipes</a>
+            <form asp-action="Delete" asp-route-id="@Model.RecipeId" method="post"
+                  onsubmit="return confirm('Delete this recipe? This cannot be undone.');">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
         </div>
     </div>
 </section>

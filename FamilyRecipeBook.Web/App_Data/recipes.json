@@ -1,0 +1,129 @@
+{
+  "recipes": [
+    {
+      "recipeId": 1,
+      "title": "Grandma\u0027s Pancakes",
+      "description": "Fluffy Sunday pancakes from the handwritten family card.",
+      "prepMinutes": 10,
+      "cookMinutes": 15,
+      "servings": 4,
+      "source": "Family Card Box",
+      "isFavorite": true,
+      "submittedBy": "Grandma Rose",
+      "categories": [
+        "Breakfast"
+      ],
+      "ingredients": [
+        {
+          "sequenceNumber": 1,
+          "ingredientName": "Flour",
+          "quantity": 2.00,
+          "unit": "cups",
+          "prepNote": null
+        },
+        {
+          "sequenceNumber": 2,
+          "ingredientName": "Sugar",
+          "quantity": 2.00,
+          "unit": "tbsp",
+          "prepNote": null
+        },
+        {
+          "sequenceNumber": 3,
+          "ingredientName": "Baking Powder",
+          "quantity": 1.00,
+          "unit": "tbsp",
+          "prepNote": null
+        },
+        {
+          "sequenceNumber": 4,
+          "ingredientName": "Salt",
+          "quantity": 0.50,
+          "unit": "tsp",
+          "prepNote": null
+        },
+        {
+          "sequenceNumber": 5,
+          "ingredientName": "Milk",
+          "quantity": 1.50,
+          "unit": "cups",
+          "prepNote": null
+        },
+        {
+          "sequenceNumber": 6,
+          "ingredientName": "Eggs",
+          "quantity": 1.00,
+          "unit": "large",
+          "prepNote": "beaten"
+        },
+        {
+          "sequenceNumber": 7,
+          "ingredientName": "Butter",
+          "quantity": 3.00,
+          "unit": "tbsp",
+          "prepNote": "melted"
+        },
+        {
+          "sequenceNumber": 8,
+          "ingredientName": "Vanilla Extract",
+          "quantity": 1.00,
+          "unit": "tsp",
+          "prepNote": null
+        }
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "instructionText": "Whisk dry ingredients in a large bowl."
+        },
+        {
+          "stepNumber": 2,
+          "instructionText": "Stir in milk, egg, melted butter, and vanilla until just combined."
+        },
+        {
+          "stepNumber": 3,
+          "instructionText": "Heat a lightly buttered skillet over medium heat."
+        },
+        {
+          "stepNumber": 4,
+          "instructionText": "Pour 1/4 cup batter per pancake and cook until bubbles form."
+        },
+        {
+          "stepNumber": 5,
+          "instructionText": "Flip and cook until golden brown."
+        },
+        {
+          "stepNumber": 6,
+          "instructionText": "Serve warm with syrup or fruit."
+        }
+      ]
+    },
+    {
+      "recipeId": 2,
+      "title": "Mom\u0027s Apple Pie",
+      "description": "A classic apple pie recipe passed down through generations.",
+      "prepMinutes": 30,
+      "cookMinutes": 45,
+      "servings": 8,
+      "source": "Recipe Box",
+      "isFavorite": false,
+      "submittedBy": "Mom",
+      "categories": [],
+      "ingredients": [
+        {
+          "sequenceNumber": 1,
+          "ingredientName": "Apples",
+          "quantity": null,
+          "unit": null,
+          "prepNote": null
+        }
+      ],
+      "steps": [
+        {
+          "stepNumber": 1,
+          "instructionText": "Peel and slice apples, mix with sugar and cinnamon."
+        }
+      ]
+    }
+  ]
+}

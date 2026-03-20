@@ -1,0 +1,96 @@
+<script>
+(function () {
+    // --- Ingredients ---
+    var ingredientsList = document.getElementById('ingredients-list');
+    var addIngredientBtn = document.getElementById('add-ingredient');
+
+    function ingredientIndex() {
+        return ingredientsList.querySelectorAll('.ingredient-row').length;
+    }
+
+    function addIngredientRow(qty, unit, name, prep) {
+        var idx = ingredientIndex();
+        var row = document.createElement('div');
+        row.className = 'ingredient-row row g-2 mb-2 align-items-center';
+        row.innerHTML =
+            '<div class="col-3 col-md-2">' +
+                '<input name="Ingredients[' + idx + '].Quantity" value="' + (qty || '') + '" type="number" step="0.01" min="0" class="form-control form-control-sm" placeholder="Qty" />' +
+            '</div>' +
+            '<div class="col-3 col-md-2">' +
+                '<input name="Ingredients[' + idx + '].Unit" value="' + (unit || '') + '" type="text" class="form-control form-control-sm" placeholder="Unit" />' +
+            '</div>' +
+            '<div class="col-12 col-md-4">' +
+                '<input name="Ingredients[' + idx + '].IngredientName" value="' + (name || '') + '" type="text" class="form-control form-control-sm" placeholder="Ingredient *" required />' +
+            '</div>' +
+            '<div class="col-9 col-md-3">' +
+                '<input name="Ingredients[' + idx + '].PrepNote" value="' + (prep || '') + '" type="text" class="form-control form-control-sm" placeholder="Prep note" />' +
+            '</div>' +
+            '<div class="col-3 col-md-1 d-flex justify-content-end">' +
+                '<button type="button" class="btn btn-sm btn-outline-danger remove-row" aria-label="Remove ingredient">&times;</button>' +
+            '</div>';
+        ingredientsList.appendChild(row);
+        reindexIngredients();
+    }
+
+    function reindexIngredients() {
+        var rows = ingredientsList.querySelectorAll('.ingredient-row');
+        rows.forEach(function (row, i) {
+            row.querySelectorAll('input').forEach(function (inp) {
+                inp.name = inp.name.replace(/Ingredients\[\d+\]/, 'Ingredients[' + i + ']');
+            });
+        });
+    }
+
+    addIngredientBtn.addEventListener('click', function () { addIngredientRow(); });
+
+    ingredientsList.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-row')) {
+            e.target.closest('.ingredient-row').remove();
+            reindexIngredients();
+        }
+    });
+
+    // --- Steps ---
+    var stepsList = document.getElementById('steps-list');
+    var addStepBtn = document.getElementById('add-step');
+
+    function stepIndex() {
+        return stepsList.querySelectorAll('.step-row').length;
+    }
+
+    function addStepRow(text) {
+        var idx = stepIndex();
+        var row = document.createElement('div');
+        row.className = 'step-row row g-2 mb-2 align-items-start';
+        row.innerHTML =
+            '<div class="col-auto pt-2 text-muted step-number fw-bold">' + (idx + 1) + '.</div>' +
+            '<div class="col">' +
+                '<textarea name="Steps[' + idx + '].InstructionText" class="form-control form-control-sm" rows="2" placeholder="Describe this step...">' + (text || '') + '</textarea>' +
+            '</div>' +
+            '<div class="col-auto">' +
+                '<button type="button" class="btn btn-sm btn-outline-danger remove-row" aria-label="Remove step">&times;</button>' +
+            '</div>';
+        stepsList.appendChild(row);
+        reindexSteps();
+    }
+
+    function reindexSteps() {
+        var rows = stepsList.querySelectorAll('.step-row');
+        rows.forEach(function (row, i) {
+            var num = row.querySelector('.step-number');
+            if (num) num.textContent = (i + 1) + '.';
+            var ta = row.querySelector('textarea');
+            if (ta) ta.name = 'Steps[' + i + '].InstructionText';
+        });
+    }
+
+    addStepBtn.addEventListener('click', function () { addStepRow(); });
+
+    stepsList.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-row')) {
+            e.target.closest('.step-row').remove();
+            reindexSteps();
+        }
+    });
+}());
+</script>

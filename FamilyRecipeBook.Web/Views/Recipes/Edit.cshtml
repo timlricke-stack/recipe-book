@@ -1,16 +1,17 @@
 @model FamilyRecipeBook.Web.Models.CreateRecipeInputModel
 
 @{
-    ViewData["Title"] = "Add Recipe";
+    var recipeId = (int)ViewData["RecipeId"]!;
+    ViewData["Title"] = "Edit Recipe";
 }
 
 <section class="hero-splash mb-4">
-    <h1 class="display-6 mb-1">Add a Family Recipe</h1>
-    <p class="mb-0">Fill in the details, then add ingredients and steps below.</p>
+    <h1 class="display-6 mb-1">Edit Recipe</h1>
+    <p class="mb-0">Update the details, ingredients, and steps.</p>
 </section>
 
 <section class="recipe-card">
-    <form asp-action="Create" method="post" class="row g-3">
+    <form asp-action="Edit" asp-route-id="@recipeId" method="post" class="row g-3">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="col-12 col-md-8">
@@ -67,8 +68,8 @@
         @await Html.PartialAsync("_StepsEditor", Model)
 
         <div class="col-12 d-flex gap-2">
-            <button type="submit" class="btn btn-accent">Save Recipe</button>
-            <a asp-controller="Recipes" asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+            <button type="submit" class="btn btn-accent">Save Changes</button>
+            <a asp-controller="Recipes" asp-action="Details" asp-route-id="@recipeId" class="btn btn-outline-secondary">Cancel</a>
         </div>
     </form>
 </section>

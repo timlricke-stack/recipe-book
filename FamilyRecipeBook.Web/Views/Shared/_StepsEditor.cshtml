@@ -1,0 +1,20 @@
+@model FamilyRecipeBook.Web.Models.CreateRecipeInputModel
+
+<div class="col-12 mt-3">
+    <h5 class="mb-2">Directions</h5>
+    <div id="steps-list">
+        @for (int i = 0; i < Model.Steps.Count; i++)
+        {
+            <div class="step-row row g-2 mb-2 align-items-start">
+                <div class="col-auto pt-2 text-muted step-number fw-bold">@(i + 1).</div>
+                <div class="col">
+                    <textarea name="Steps[@i].InstructionText" class="form-control form-control-sm" rows="2" placeholder="Describe this step...">@Model.Steps[i].InstructionText</textarea>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-sm btn-outline-danger remove-row" aria-label="Remove step">&times;</button>
+                </div>
+            </div>
+        }
+    </div>
+    <button type="button" id="add-step" class="btn btn-sm btn-outline-secondary mt-1">+ Add Step</button>
+</div>

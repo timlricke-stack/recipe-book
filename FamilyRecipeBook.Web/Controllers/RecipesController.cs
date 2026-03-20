@@ -25,7 +25,7 @@ public sealed class RecipesController : Controller
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to load recipes.");
-            ViewData["ErrorMessage"] = "Unable to load recipes. Confirm your SQL Server is running and the RecipeBook connection string is correct.";
+            ViewData["ErrorMessage"] = "Unable to load recipes. Please check your data storage configuration.";
             return View((IReadOnlyList<RecipeListItem>)new List<RecipeListItem>());
         }
     }
@@ -58,5 +58,67 @@ public sealed class RecipesController : Controller
 
         var id = await _recipeRepository.CreateAsync(model, cancellationToken);
         return RedirectToAction(nameof(Details), new { id });
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
+    {
+        var recipe = await _recipeRepository.GetByIdAsync(id, cancellationToken);
+        if (recipe is null)
+        {
+            return NotFound();
+        }
+
+        var model = new CreateRecipeInputModel
+        {
+            Title = recipe.Title,
+            Description = recipe.Description,
+            PrepMinutes = recipe.PrepMinutes,
+            CookMinutes = recipe.CookMinutes,
+            Servings = recipe.Servings,
+            Source = recipe.Source,
+            IsFavorite = recipe.IsFavorite,
+            SubmittedBy = recipe.SubmittedBy,
+            Ingredients = recipe.Ingredients
+                .Select(i => new IngredientInputLine
+                {
+                    IngredientName = i.IngredientName,
+                    Quantity = i.Quantity,
+                    Unit = i.Unit,
+                    PrepNote = i.PrepNote
+                })
+                .ToList(),
+            Steps = recipe.Steps
+                .Select(s => new StepInputLine
+                {
+                    InstructionText = s.InstructionText
+                })
+                .ToList()
+        };
+
+        ViewData["RecipeId"] = id;
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, CreateRecipeInputModel model, CancellationToken cancellationToken)
+    {
+        if (!ModelState.IsValid)
+        {
+            ViewData["RecipeId"] = id;
+            return View(model);
+        }
+
+        await _recipeRepository.UpdateAsync(id, model, cancellationToken);
+        return RedirectToAction(nameof(Details), new { id });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    {
+        await _recipeRepository.DeleteAsync(id, cancellationToken);
+        return RedirectToAction(nameof(Index));
     }
 }

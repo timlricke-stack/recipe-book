@@ -1,5 +1,5 @@
 {
-  "name": "newrepo",
+  "name": "recipe-book",
   "version": "1.0.0",
   "description": "family recipe book",
   "keywords": [
@@ -7,13 +7,13 @@
     "database",
     "family"
   ],
-  "homepage": "https://github.com/timlricke-stack/NewRepo#readme",
+  "homepage": "https://github.com/timlricke-stack/recipe-book#readme",
   "bugs": {
-    "url": "https://github.com/timlricke-stack/NewRepo/issues"
+    "url": "https://github.com/timlricke-stack/recipe-book/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/timlricke-stack/NewRepo.git"
+    "url": "git+https://github.com/timlricke-stack/recipe-book.git"
   },
   "license": "ISC",
   "author": "tim ricke",
